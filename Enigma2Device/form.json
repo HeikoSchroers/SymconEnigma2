@@ -1,0 +1,93 @@
+{
+    "elements": [
+        {
+            "type": "ValidationTextBox",
+            "name": "Host",
+            "caption": "Adresse (IP oder Name)"
+        },
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "NumberSpinner",
+                    "name": "Port",
+                    "caption": "Port",
+                    "minimum": 1,
+                    "maximum": 65535
+                },
+                {
+                    "type": "CheckBox",
+                    "name": "HTTPS",
+                    "caption": "HTTPS (Zertifikat wird nicht geprüft)"
+                }
+            ]
+        },
+        {
+            "type": "ValidationTextBox",
+            "name": "Username",
+            "caption": "Benutzer (leer = ohne Anmeldung)"
+        },
+        {
+            "type": "PasswordTextBox",
+            "name": "Password",
+            "caption": "Passwort"
+        },
+        {
+            "type": "NumberSpinner",
+            "name": "Interval",
+            "caption": "Zustand abfragen alle",
+            "suffix": "Sekunden (0 = aus, mindestens 2)",
+            "minimum": 0
+        },
+        {
+            "type": "NumberSpinner",
+            "name": "SwitchDelay",
+            "caption": "Ruhezeit nach dem Schalten",
+            "suffix": "Sekunden",
+            "minimum": 0
+        },
+        {
+            "type": "Label",
+            "caption": "Nach dem Aufwecken meldet der Receiver noch einige Sekunden „Standby“. In der Ruhezeit lässt die Abfrage den Schalter deshalb stehen."
+        }
+    ],
+    "actions": [
+        {
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "Button",
+                    "caption": "Zustand abfragen",
+                    "onClick": "echo ['nicht erreichbar', 'Standby', 'eingeschaltet'][E2_GetState($id)];"
+                },
+                {
+                    "type": "Button",
+                    "caption": "Geräteinfo",
+                    "onClick": "$i = E2_GetInfo($id); echo $i ? implode(\"\\n\", array_map(fn ($k, $v) => $k . ': ' . $v, array_keys($i), $i)) : 'keine Antwort';"
+                },
+                {
+                    "type": "Button",
+                    "caption": "Einschalten",
+                    "onClick": "E2_SetPower($id, true);"
+                },
+                {
+                    "type": "Button",
+                    "caption": "Standby",
+                    "onClick": "E2_SetPower($id, false);"
+                }
+            ]
+        }
+    ],
+    "status": [
+        {
+            "code": 201,
+            "icon": "error",
+            "caption": "Anmeldung abgelehnt (HTTP 401) – Benutzer und Passwort prüfen"
+        },
+        {
+            "code": 202,
+            "icon": "error",
+            "caption": "Receiver nicht erreichbar"
+        }
+    ]
+}

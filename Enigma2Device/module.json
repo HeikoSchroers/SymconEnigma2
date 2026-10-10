@@ -1,0 +1,12 @@
+{
+    "id": "{F7F717FC-306F-490D-82BB-945462907E4A}",
+    "name": "Enigma2 Device",
+    "type": 3,
+    "vendor": "Enigma2",
+    "aliases": ["Dreambox", "Vu+", "Enigma2", "OpenWebIF"],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "E2",
+    "url": "https://github.com/HeikoSchroers/SymconEnigma2"
+}
