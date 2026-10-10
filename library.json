@@ -1,0 +1,12 @@
+{
+    "id": "{9409558F-D8E7-4B72-BF11-1F12F926C748}",
+    "name": "SymconEnigma2",
+    "author": "Heiko Schrörs",
+    "url": "https://github.com/HeikoSchroers/SymconEnigma2",
+    "compatibility": {
+        "version": "8.0"
+    },
+    "version": "1.0",
+    "build": 1,
+    "date": 0
+}
