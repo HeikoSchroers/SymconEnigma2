@@ -201,17 +201,23 @@ class Enigma2Device extends IPSModule
             return [$an, $an ? $this->anfrage('getcurrent') : ''];
         }, $warnen, $warten);
 
+        $ruhe = time() - (int) $this->GetBuffer('Geschaltet') < $this->ReadPropertyInteger('SwitchDelay');
         if ($ergebnis === null) {
             if ($this->belegt) {
                 return $this->GetValue('STATUS');
             }
-            // POWER bleibt stehen: Ein Netz- oder HTTP-Fehler heisst weder an noch aus
-            $this->setzen('STATUS', 0);
+            // POWER bleibt stehen: Ein Netz- oder HTTP-Fehler heisst weder an noch aus.
+            // Beim Aufwachen beantwortet der Receiver einzelne Abfragen nicht; in der
+            // Ruhezeit bleibt deshalb auch STATUS stehen.
+            if ($ruhe) {
+                $this->SendDebug('Update', 'Fehler in der Ruhezeit, Zustand bleibt stehen', 0);
+            } else {
+                $this->setzen('STATUS', 0);
+            }
             return 0;
         }
 
         [$an, $aktuell] = $ergebnis;
-        $ruhe = time() - (int) $this->GetBuffer('Geschaltet') < $this->ReadPropertyInteger('SwitchDelay');
         if ($ruhe) {
             $this->SendDebug('Update', 'Ruhezeit nach dem Schalten, Schalter bleibt stehen', 0);
         } else {

@@ -80,7 +80,8 @@ es war. Ein Netz- oder Anmeldefehler gilt also weder als „an“ noch als „au
 „Standby“. Ohne Gegenmaßnahme spränge der Schalter kurz zurück, und die
 HomeKit-Bridge sähe ein Aus. Nach einem Schaltbefehl lässt die Abfrage
 **Eingeschaltet** und **Zustand** deshalb für die eingestellte Ruhezeit
-stehen, ab Werk 15 Sekunden.
+stehen, ab Werk 15 Sekunden. Das gilt auch, wenn der Receiver beim Aufwachen
+eine Abfrage nicht beantwortet.
 
 ## Funktionen
 
