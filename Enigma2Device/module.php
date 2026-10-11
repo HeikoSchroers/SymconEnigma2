@@ -17,7 +17,6 @@ declare(strict_types=1);
 class Enigma2Device extends IPSModule
 {
     // Darstellungen von IP-Symcon (/usr/share/symcon/presentations/)
-    private const P_AUFZ = '{52D9E126-D7D2-2CBB-5E62-4CF7BA7C5D82}';
     private const P_SCHALTER = '{60AE6B26-B3E2-BDB1-A3A1-BE232940664B}';
     private const P_SCHIEBER = '{6B9CAEEC-5958-C223-30F7-BD36569FC57A}';
     private const P_WERT = '{3319437D-7CDE-699D-750A-3C6A3841FA75}';
@@ -435,13 +434,22 @@ class Enigma2Device extends IPSModule
         return strtolower((string) $wert) === 'true';
     }
 
+    /**
+     * Feste Texte fuer Ganzzahlen. Nicht die Darstellung "Aufzaehlung": Die
+     * verlangt eine Aktion an der Variable, und ohne Aktion zeigt die
+     * Kachel-Visualisierung nur die rohe Zahl. Die Darstellung "Wert" kennt
+     * fuer Ganzzahlen Intervalle mit festem Text.
+     */
     private static function pAufz(array $optionen, string $icon): array
     {
-        $o = [];
+        $iv = [];
         foreach ($optionen as $wert => $text) {
-            $o[] = ['Value' => $wert, 'Caption' => $text, 'IconActive' => false, 'IconValue' => '', 'Color' => -1];
+            $iv[] = ['IntervalMinValue' => $wert, 'IntervalMaxValue' => $wert, 'ConstantActive' => true, 'ConstantValue' => $text,
+                     'ConversionFactor' => 1, 'PrefixActive' => false, 'PrefixValue' => '', 'IconActive' => false, 'IconValue' => '',
+                     'ColorActive' => false, 'ColorValue' => -1, 'ContentColorActive' => false, 'ContentColorValue' => -1,
+                     'SuffixActive' => false, 'SuffixValue' => '', 'DigitsActive' => false, 'DigitsValue' => 0];
         }
-        return ['PRESENTATION' => self::P_AUFZ, 'OPTIONS' => json_encode($o), 'ICON' => $icon, 'LAYOUT' => 0];
+        return ['PRESENTATION' => self::P_WERT, 'ICON' => $icon, 'DIGITS' => 0, 'INTERVALS_ACTIVE' => true, 'INTERVALS' => json_encode($iv)];
     }
 
     private static function pSchalter(string $icon): array
